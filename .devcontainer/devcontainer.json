@@ -1,0 +1,23 @@
+{
+	"name": "promptflow-devcontainer",	
+	"context": ".",
+	"dockerFile": "Dockerfile",
+	
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.vscode-ai",
+				"ms-toolsai.jupyter",
+				"redhat.vscode-yaml",
+				"prompt-flow.prompt-flow"
+			],
+			"settings": {
+				"terminal.integrated.shell.linux": "/bin/bash"
+			}
+		}
+		
+	},	
+
+	"runArgs": ["-v", "/var/run/docker.sock:/var/run/docker.sock"]
+}

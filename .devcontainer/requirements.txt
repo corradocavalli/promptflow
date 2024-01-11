@@ -1,0 +1,11 @@
+azure-cli
+keyrings.alt
+azure-search-documents
+jinja2
+promptflow
+promptflow-tools
+azure-cosmos
+azure-search-documents
+azure-ai-ml
+azure-identity
+chainlit
