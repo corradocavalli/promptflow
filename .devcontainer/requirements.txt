@@ -9,3 +9,4 @@ azure-search-documents
 azure-ai-ml
 azure-identity
 chainlit
+dotenv
