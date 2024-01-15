@@ -4,7 +4,6 @@ azure-search-documents
 jinja2
 promptflow
 promptflow-tools
-azure-cosmos
 azure-search-documents
 azure-ai-ml
 azure-identity
@@ -13,3 +12,4 @@ dotenv
 pypdf
 azure-storage-blob
 azure-ai-formrecognizer
+unstructured[all-docs]

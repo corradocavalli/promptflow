@@ -1,4 +1,4 @@
-# Code Generator
+# Code Generator Spike
 
 This repository contains the code and documentation for the promptflow project.
 
