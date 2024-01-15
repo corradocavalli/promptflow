@@ -10,3 +10,6 @@ azure-ai-ml
 azure-identity
 chainlit
 dotenv
+pypdf
+azure-storage-blob
+azure-ai-formrecognizer

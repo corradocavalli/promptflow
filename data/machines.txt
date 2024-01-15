@@ -1,0 +1,10 @@
+
+Here's the list of the top 10 machine available on the market.
+
+SE-01 from XYZ US
+Is a multi operation machine that can handle all the operations of a standard machine shop.
+It is a combination of cutting, welding and blowing machine. It can be used for cutting, welding and blowing operations.
+
+SW-ZH-Nomad from BesserMachine Switzerland
+Is a multi operation machine that can handle only blowing and cutting operations.
+It can blow any kind of plastic material and cut alluminium and steel.
