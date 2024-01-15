@@ -1,0 +1,11 @@
+Corrado can do the following:
+Code
+Ski
+Run
+Bike
+
+Corrado cannot do the following:
+Speak German
+Code in Rust
+Drive to Portland
+```
