@@ -1,3 +1,5 @@
+# Upload to blob storage and support Form Recognizer (no embeddings)
+
 import os
 import glob
 import html
