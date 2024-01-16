@@ -2,16 +2,31 @@
 
 import os  
 import json  
+import openai
 from openai import AzureOpenAI
 from dotenv import load_dotenv  
+from tenacity import retry, wait_random_exponential, stop_after_attempt  
 from azure.core.credentials import AzureKeyCredential  
 from azure.search.documents import SearchClient, SearchIndexingBufferedSender  
 from azure.search.documents.indexes import SearchIndexClient  
-
+from azure.search.documents.models import (
+    QueryAnswerType,
+    QueryCaptionType,
+    QueryCaptionResult,
+    QueryAnswerResult,
+    SemanticErrorMode,
+    SemanticErrorReason,
+    SemanticSearchResultsType,
+    QueryType,
+    VectorizedQuery,
+    VectorQuery,
+    VectorFilterMode,    
+)
 from azure.search.documents.indexes.models import (  
     ExhaustiveKnnAlgorithmConfiguration,
     ExhaustiveKnnParameters,
-    SearchIndex,     
+    SearchIndex,  
+    SearchField,  
     SearchFieldDataType,  
     SimpleField,  
     SearchableField,  
@@ -24,7 +39,8 @@ from azure.search.documents.indexes.models import (
     VectorSearch,  
     HnswAlgorithmConfiguration,
     HnswParameters,  
-    VectorSearch,    
+    VectorSearch,
+    VectorSearchAlgorithmConfiguration,
     VectorSearchAlgorithmKind,
     VectorSearchProfile,
     SearchIndex,
@@ -67,27 +83,27 @@ credential = AzureKeyCredential(key)
 # Create a client
 client = AzureOpenAI(
   api_key = os.getenv("AZURE_OPENAI_KEY"),  
-  api_version = "2023-12-01-preview",
+  api_version = "2023-05-15",
   azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
 )
 
 # Generate Document Embeddings using OpenAI Ada 002
 # Read the text-sample.json
-with open(f'{DATA_DIR}/library_data.json', 'r', encoding='utf-8') as file:
+with open(f'{DATA_DIR}/sample.json', 'r', encoding='utf-8') as file:
     input_data = json.load(file)
 
 # Function to generate embeddings for title and content fields, also used for query embeddings
 def generate_embeddings(text, model=model):
     return client.embeddings.create(input = [text], model=model).data[0].embedding
 
-# Generate embeddings for content and category
+# Generate embeddings for title and content fields
 for item in input_data:
     title = item['title']
-    content = item['content']    
+    content = item['content']
     title_embeddings = generate_embeddings(title)
-    content_embeddings = generate_embeddings(content)    
+    content_embeddings = generate_embeddings(content)
     item['titleVector'] = title_embeddings
-    item['contentVector'] = content_embeddings    
+    item['contentVector'] = content_embeddings
 
 # Output embeddings to docVectors.json file
 with open(f"{DATA_DIR}/output/docVectors.json", "w") as f:
@@ -99,8 +115,7 @@ fields = [
         SimpleField(name="id", type=SearchFieldDataType.String, key=True, sortable=True, filterable=True, facetable=True),
         SearchableField(name="title", type=SearchFieldDataType.String),
         SearchableField(name="content", type=SearchFieldDataType.String),
-        SearchableField(name="categories", type=SearchFieldDataType.String, filterable=True),        
-        SearchableField(name="doctype", type=SearchFieldDataType.String),
+        SearchableField(name="category", type=SearchFieldDataType.String, filterable=True),
         SearchField(name="titleVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                     searchable=True, vector_search_dimensions=1536, vector_search_profile_name="myHnswProfile"),
         SearchField(name="contentVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
@@ -138,7 +153,7 @@ semantic_config = SemanticConfiguration(
     name="my-semantic-config",
     prioritized_fields=SemanticPrioritizedFields(
         title_field=SemanticField(field_name="title"),
-        keywords_fields=[SemanticField(field_name="categories")],
+        keywords_fields=[SemanticField(field_name="category")],
         content_fields=[SemanticField(field_name="content")]
     )
 )
@@ -150,26 +165,26 @@ semantic_search = SemanticSearch(configurations=[semantic_config])
 index = SearchIndex(name=index_name, fields=fields, vector_search=vector_search, semantic_search=semantic_search)
 index_client.delete_index(index)
 result = index_client.create_or_update_index(index)
-print(f"Index '{result.name}' created...")
+print(f' {result.name} created')
 
-# # Upload some documents to the index
-# with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:      
-#     documents = json.load(file) 
+# Upload some documents to the index
+with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:      
+    documents = json.load(file) 
      
-# search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
-# result = search_client.upload_documents(documents)
-# print(f"Uploaded {len(documents)} documents") 
+search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
+result = search_client.upload_documents(documents)
+print(f"Uploaded {len(documents)} documents") 
 
 # Upload some documents to the index  
 with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:  
     documents = json.load(file)  
   
 # Use SearchIndexingBufferedSender to upload the documents in batches optimized for indexing  
-with SearchIndexingBufferedSender(  
-    endpoint=service_endpoint,  
-    index_name=index_name,  
-    credential=credential,  
-) as batch_client:  
-    # Add upload actions for all documents  
-    batch_client.upload_documents(documents=documents)  
-print(f"Uploaded {len(documents)} documents.")  
+# with SearchIndexingBufferedSender(  
+#     endpoint=service_endpoint,  
+#     index_name=index_name,  
+#     credential=credential,  
+# ) as batch_client:  
+#     # Add upload actions for all documents  
+#     batch_client.upload_documents(documents=documents)  
+# print(f"Uploaded {len(documents)} documents in total")  

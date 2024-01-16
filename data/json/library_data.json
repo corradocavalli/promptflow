@@ -1,0 +1,79 @@
+[
+  {
+    "id": "1",
+    "title": "SE-01",
+    "content": "Is a multi operation machine that can handle all the operations of a standard machine shop.\\nIt is a combination of cutting, welding and blowing machine. It can be used for cutting, welding and blowing operations.\\nSupports vertical,horizontal and round cutting and soldering.",
+    "categories": "Blowing, Soldering, Cutting",
+    "doctype": "Machine"
+  },
+  {
+    "id": "2",
+    "title": "BX-T987",
+    "content": "Is a multi operation machine that can handle only blowing operations.\\nSupports only vertical and horizontal cutting.",
+    "categories": "Blowing",
+    "doctype": "Machine"
+  },
+  {
+    "id": "3",
+    "title": "SE-01: Vertical Cutting Library",
+    "content": "The library package 'machine_cut_v' contains functions related to material cutting.\\nHere's the list of available functions:\\n# Cut the material vertically from the point (beginX,beginY) to the point (endX,endY)\\nverticalCut(beginX, beginY, endX, endY)\\n# Cut the material vertically from the point (beginX,beginY) to the point (endX,endY) in a zigzag pattern\\nverticalCutZZ(beginX, beginY, endX, endY)",
+    "categories": "Cutting",
+    "doctype": "Library"
+  },
+  {
+    "id": "4",
+    "title": "SE-01: Horizontal Cutting Library",
+    "content": "The library package 'machine_cut_h' contains functions related to material cutting.\\nHere's the list of available functions:\\n# Cut the material horizontally from the point (beginX,beginY) to the point (endX,endY)\\nHCut(beginX, beginY, endX, endY)\\n# Cut the material horizontally from the point (beginX,beginY) to the point (endX,endY) in a zigzag pattern\\nHZZCut(beginX, beginY, endX, endY)",
+    "categories": "Cutting",
+    "doctype": "Library"
+  },
+  {
+    "id": "5",
+    "title": "SE-01: Round Cutting Library",
+    "content": "The library package 'machine_cut_r' contains functions related to material cutting.\\nHere's the list of available functions:\\n# Creates a round cut where point (beginX,beginY) is the center and radius is the radius of the circle\\nRoundCut(beginX, beginY, radius)\\n# Creates a round cut where point (beginX,beginY) is the center, radius is the radius of the circle and border follows a zigzag pattern\\nRoundCutZigZag(beginX, beginY, endX, endY)",
+    "categories": "Cutting",
+    "doctype": "Library"
+  },
+  {
+    "id": "6",
+    "title": "SE-01: Vertical Soldering Library",
+    "content": "The library package 'machine_solder_v' contains functions related to material soldering.\\nHere's the list of available functions:\\n# Solder the material vertically from the point (beginX,beginY) to the point (endX,endY)\\nvSold(beginX, beginY, endX, endY)\\n# Solder the material vertically from the point (beginX,beginY) to the point (endX,endY) in a zigzag pattern\nv_S_ZZCut(beginX, beginY, endX, endY)",
+    "categories": "Soldering",
+    "doctype": "Library"
+  },
+  {
+    "id": "7",
+    "title": "SE-01: Horizontal Soldering Library",
+    "content": "The library package 'machine_solder_h' contains functions related to material soldering.\\nHere's the list of available functions:\\n# Weld the material horizontally from the point (beginX,beginY) to the point (endX,endY)\\nsold_H(beginX, beginY, endX, endY)\\n# Weld the material horizontally from the point (beginX,beginY) to the point (endX,endY) in a zigzag pattern\\nH_ZZ_Sold(beginX, beginY, endX, endY)",
+    "categories": "Soldering",
+    "doctype": "Library"
+  },
+  {
+    "id": "8",
+    "title": "SE-01: Circular Soldering Library",
+    "content": "The library package 'machine_weld_circular' contains functions related to material soldering.\\nHere's the list of available functions:\\n# Performs a circular welding of the material where (beginX,beginY) is the center and radius is the radius of the circle\\nRoundWeld(beginX, beginY, radius)\\n# Performs a circular welding of the material where (beginX,beginY) is the center, radius is the radius of the circle and border follows a zigzag pattern\\nRound_W_ZigZag(beginX, beginY, endX, endY)",
+    "categories": "Soldering",
+    "doctype": "Library"
+  },
+  {
+    "id": "9",
+    "title": "BX-T987: Vertical Blowing Library",
+    "content": "The library package 'machine_blow_w' contains functions related to material exhaling.\\nExported functions:\\n# Performs a circular exhaling of the material for the specified number of seconds\\nV_Exhale(seconds)",
+    "categories": "Blowing",
+    "doctype": "Library"
+  },
+  {
+    "id": "10",
+    "title": "BX-T987: Horizontal and Vertical Blowing Library",
+    "content": "The library package 'BXT987_blow_h_w' contains functions related to material exhaling.\\nExported functions:\\n# Performs a vertical exhaling of the material for the specified number of seconds\\nV_Exhale(seconds)\\n# Performs horizontal exhaling of the material for the specified number of seconds\\nH_Exhale(seconds)",
+    "categories": "Blowing",
+    "doctype": "Library"
+  },
+  {
+    "id": "11",
+    "title": "BX-T987: Circular Blowing Library",
+    "content": "The library package 'BXT987_blow_R' contains functions related to material blowing.\\nExported functions:\\n# Performs a round exhaling of the material for the specified number of seconds\\nR_Blow(seconds)",
+    "categories": "Blowing",
+    "doctype": "Library"
+  }
+]
