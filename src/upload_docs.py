@@ -158,7 +158,7 @@ with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:
      
 search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
 result = search_client.upload_documents(documents)
-print(f"Uploaded {len(documents)} documents") 
+print(f"Uploaded {len(documents)} documents. (non batched)") 
 
 # Upload some documents to the index  (batch)
 # with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:  
