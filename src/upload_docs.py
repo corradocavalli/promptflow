@@ -97,7 +97,7 @@ with open(f"{DATA_DIR}/output/docVectors.json", "w") as f:
 index_client = SearchIndexClient(endpoint=service_endpoint, credential=credential)
 fields = [
         SimpleField(name="id", type=SearchFieldDataType.String, key=True, sortable=True, filterable=True, facetable=True),
-        SearchableField(name="title", type=SearchFieldDataType.String),
+        SearchableField(name="title", type=SearchFieldDataType.String,filterable=True),
         SearchableField(name="content", type=SearchFieldDataType.String),
         SearchableField(name="categories", type=SearchFieldDataType.String, filterable=True),        
         SearchableField(name="doctype", type=SearchFieldDataType.String),

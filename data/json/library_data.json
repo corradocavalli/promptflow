@@ -3,7 +3,7 @@
     "id": "1",
     "title": "SE-01",
     "content": "Is a multi operation machine that can handle all the operations of a standard machine shop.\\nIt is a combination of cutting, welding and blowing machine. It can be used for cutting, welding and blowing operations.\\nSupports vertical,horizontal and round cutting and soldering.",
-    "categories": "Blowing, Soldering, Cutting",
+    "categories": "Soldering, Cutting",
     "doctype": "Machine"
   },
   {
