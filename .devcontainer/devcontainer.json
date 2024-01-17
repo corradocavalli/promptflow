@@ -5,7 +5,14 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "ms-toolsai.vscode-ai", "ms-toolsai.jupyter", "redhat.vscode-yaml", "prompt-flow.prompt-flow"],
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.vscode-ai",
+        "ms-toolsai.jupyter",
+        "redhat.vscode-yaml",
+        "prompt-flow.prompt-flow",
+        "ms-python.black-formatter"
+      ],
       "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
         "editor.defaultFormatter": "ms-python.python"
