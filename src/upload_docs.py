@@ -153,23 +153,23 @@ result = index_client.create_or_update_index(index)
 print(f"Index '{result.name}' created...")
 
 # # Upload some documents to the index
-# with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:      
-#     documents = json.load(file) 
+with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:      
+    documents = json.load(file) 
      
-# search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
-# result = search_client.upload_documents(documents)
-# print(f"Uploaded {len(documents)} documents") 
+search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
+result = search_client.upload_documents(documents)
+print(f"Uploaded {len(documents)} documents") 
 
-# Upload some documents to the index  
-with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:  
-    documents = json.load(file)  
+# Upload some documents to the index  (batch)
+# with open(f'{DATA_DIR}/output/docVectors.json', 'r') as file:  
+#     documents = json.load(file)  
   
-# Use SearchIndexingBufferedSender to upload the documents in batches optimized for indexing  
-with SearchIndexingBufferedSender(  
-    endpoint=service_endpoint,  
-    index_name=index_name,  
-    credential=credential,  
-) as batch_client:  
-    # Add upload actions for all documents  
-    batch_client.upload_documents(documents=documents)  
-print(f"Uploaded {len(documents)} documents.")  
+# # Use SearchIndexingBufferedSender to upload the documents in batches optimized for indexing  
+# with SearchIndexingBufferedSender(  
+#     endpoint=service_endpoint,  
+#     index_name=index_name,  
+#     credential=credential,  
+# ) as batch_client:  
+#     # Add upload actions for all documents  
+#     batch_client.upload_documents(documents=documents)  
+# print(f"Uploaded {len(documents)} documents.")  
