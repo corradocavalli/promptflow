@@ -8,7 +8,7 @@ azure-search-documents
 azure-ai-ml
 azure-identity
 chainlit
-dotenv
+python-dotenv
 pypdf
 azure-storage-blob
 azure-ai-formrecognizer
