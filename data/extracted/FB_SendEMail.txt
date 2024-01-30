@@ -184,12 +184,9 @@ InvalidAttachmentPath,INT,5,The path to the attachment of the email is invalid: 
 InvalidAttachmentExtension,INT,6,The attachment of the email has an invalid extension. It is not possible to receive an attachment with one of the following extensions: .ap_, .app, .cf_,.cfg,.crc,.err,.frc,.log,.prj,.rcp,.rsi,.urf
 
 
-                ET_TLSPROTOCOL
+  ET_TLSPROTOCOL
+  [NOT FOUND]  
 
-                [NOT FOUND]
-                
-
-                ET_CERTVERIFYMODE
-
-                [NOT FOUND]
+  ET_CERTVERIFYMODE
+  [NOT FOUND]
                 

@@ -190,17 +190,12 @@ SMTP,INT,0,SMTP (Simple Mail Transfer Protocol) is used for email transfer.
 eSMTP,INT,1,eSMTP (extended Simple Mail Transfer Protocol) is used for email transfer. Select this protocol to use additional protocol extensions, for example authentication,attachment, or email priority.
 
 
-                ET_TLSPROTOTOCOL
+  ET_TLSPROTOTOCOL
+  [NOT FOUND]
+  
+  ET_TLSPROTOCOL
+  [NOT FOUND] 
 
-                [NOT FOUND]
-                
-
-                ET_TLSPROTOCOL
-
-                [NOT FOUND]
-                
-
-                ET_CERTVERIFYMODE
-
-                [NOT FOUND]
+  ET_CERTVERIFYMODE
+  [NOT FOUND]
                 
