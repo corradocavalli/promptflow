@@ -30,6 +30,18 @@ q_xError,BOOL,If this output is set to TRUE an error has been detected. For deta
 q_etResult, ET_Result, Provides diagnostic and status information
 q_sResultMsg,STRING[80],Provides additional diagnostic and status information.
 
+FC_EtResultToString
+
+Functional Description
+Using the function FC_EtResultToString, you can convert an enumeration element of type ET_Result to a variable of type STRING
+
+Interface
+Input,Data type,Description
+i_etResult,ET_Result,Enumeration with the result
+Return Value
+Data type,Description
+STRING(80),The ET_Result converted to text.If i_etResult is indeterminable the return value is: Unknown Result: <Value of the input i_etResult>
+
 Global parameter list    
 Variable,Data type,Default value,Description
 Gc_udiRecipientEMailSize,UDINT,200,Maximum number of bytes of i_sRecipientEMail
@@ -184,9 +196,9 @@ InvalidAttachmentPath,INT,5,The path to the attachment of the email is invalid: 
 InvalidAttachmentExtension,INT,6,The attachment of the email has an invalid extension. It is not possible to receive an attachment with one of the following extensions: .ap_, .app, .cf_,.cfg,.crc,.err,.frc,.log,.prj,.rcp,.rsi,.urf
 
 
-  ET_TLSPROTOCOL
-  [NOT FOUND]  
+ET_TLSPROTOCOL
+[NOT FOUND]  
 
-  ET_CERTVERIFYMODE
-  [NOT FOUND]
+ET_CERTVERIFYMODE
+[NOT FOUND]
                 
