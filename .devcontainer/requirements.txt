@@ -13,3 +13,4 @@ pypdf
 azure-storage-blob
 azure-ai-formrecognizer
 unstructured[all-docs]
+langchain
