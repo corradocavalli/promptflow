@@ -1,0 +1,197 @@
+
+FB_SendEMail
+
+Functional Description
+The FB_SendEMail function block is the user-interface to interact with an external email server. It allows you to send emails.
+After the function block has been enabled and is being executed, a TCP connection to the email server is established using the user credentials that have been submitted using iq_stCredentials. As soon as the connection has been established, email data is transferred to the server. When the data transfer is completed, the TCP connection to the email server is automatically closed by the function block.
+
+Interface
+Input,Data type,Description
+i_xEnable,BOOL,Activation and initialization of the function block.
+i_xExecute,BOOL,The function block sends an email upon rising edge of this input.
+i_sRecipientEMail,STRING[GPL.Gc_udiRecipientEMailSize],The string containing the recipient email address(es).
+i_sSubject,STRING[200],Subject of the email.
+i_pbyMessage,POINTER TO BYTE,Start address of the string in which the message is stored.
+i_udiSizeOfMessage,UDINT,Size of message data.
+i_etPriority,ET_Priority,The enumeration indicating the priority level that is assigned to the email.
+i_sAttachmentPath,STRING[255],Absolute or relative path to the attachment located on the controller file system. If this string is empty, no attachment is sent.
+i_sCcRecipientEMail,STRING,[GPL.Gc_udiRecipientEMailSize],The string containing the recipient email address(es) assigned to the CC field.
+i_sBccRecipientEMail,STRING[GPL.Gc_udiRecipientEMailSize],The string containing the recipient email address(es) assigned to the BCC field.
+
+Input/Output,Data type,Description
+iq_stCredentials,ST_CredentialsSendEMail,Used to pass the structure containing user settings, such as user name or password.
+
+Output,Data type,Description
+q_xActive BOOL,If the function block is active, this output is set to TRUE.
+q_xReady,BOOL,If the initialization is successful, this output signals a TRUE as long as the function block is capable of accepting inputs.
+q_xBusy,BOOL If this output is set to TRUE the function block execution is in progress.
+q_xDone,BOOL,If this output is set to TRUE, the execution has been completed successfully.
+q_xError,BOOL,If this output is set to TRUE an error has been detected. For details, refer to q_etResult and q_etResultMsg.
+q_etResult, ET_Result, Provides diagnostic and status information
+q_sResultMsg,STRING[80],Provides additional diagnostic and status information.
+
+FC_EtResultToString
+
+Functional Description
+Using the function FC_EtResultToString, you can convert an enumeration element of type ET_Result to a variable of type STRING
+
+Interface
+Input,Data type,Description
+i_etResult,ET_Result,Enumeration with the result
+Return Value
+Data type,Description
+STRING(80),The ET_Result converted to text.If i_etResult is indeterminable the return value is: Unknown Result: <Value of the input i_etResult>
+
+Global parameter list    
+Variable,Data type,Default value,Description
+Gc_udiRecipientEMailSize,UDINT,200,Maximum number of bytes of i_sRecipientEMail
+Gc_tTimeOut,TIME,TIME#10m0s0ms,Maximum time to receive an answer from the server.
+Gc_uiIpStringSize,UINT,15,Maximum size for IP addresses, such as i_sServerIP.
+Gc_udiReceiveBufferSize,UDINT,1000,Maximum size of the receive buffer that is required to communicate with the server.
+Gc_xUseControllerTime,BOOL,FALSE,If TRUE, the controller time is used for creating the time stamp indicating when the email was sent.
+Gc_udiInboxSize,UDINT,10,Maximum size of the inbox. This value determines the maximum number of mails that can be downloaded withcone receive command.
+Gc_udiMaxNumberOfAttachmentPaths,UDINT,1,Maximum size of the array ST_EMail.asAttachmentPath. It contains absolute or relative path(s) on the file system of the controller where downloaded attachments are stored. This variable does not limit the number of downloaded attachments.
+Gc_xUseTop,BOOL,TRUE, If TRUE internally the TOP0 command is used to download only the header of the email. This is useful if the white list feature is used to verify the email address of the sender before the entire message is downloaded. If the TOP command is not supported by your email server (indicated by q_sResultMsg), set this variable to FALSE.
+Gc_xUseUniqueId,BOOL,TRUE, If TRUE the UIDL command is used to retrieve the unique ID of the email. If the UIDL command is not supported by your email server (indicated by q_sResultMsg), set this variable to FALSE.
+
+Global variable list
+Variable,Data type,Default value,Description
+Gc_xOnlineChangeAllowed,BOOL,FALSE, If TRUE the online change detection is successfully initialized. Execute an online change while the POU is busy only if Gc_xOnlineChangeAllowed =TRUE.
+
+ET_Priority
+[NOT FOUND]
+
+ST_CredentialsSendEMail
+Element,Data Type,Description
+i_sServerIP,STRING[GPL.Gc_uiIpStringSize],The IP address of the external email server.
+i_uiServerPort,UINT,The port of the external email server.
+i_etProtocol,ET_Protocol,Enumeration which indicates the protocol.
+i_sDomainName,STRING[200],The domain of the client.
+i_sSenderEMail,STRING[200],The email address of the sender.
+i_sUsername,STRING[60],The username to access the external email server.
+i_sPassword,STRING[60],The password to access the external email server.i_etAuthenticationMode,ET_AuthenticationMode,Enumeration which indicates the authentication mode.
+stTlsSettings,ST_TlsSettings,Structure to specify the TLS (Transport Layer Security) configuration.
+
+
+ET_Result
+Name, Data Type,Value,Description
+Ok,UDINT,0,The operation completed successfully.
+Disabled,UDINT,1,The function block is disabled.
+Initializing,UDINT,2,The function block is initializing.
+Ready,UDINT,4,The function block is ready.
+ConnectingToServer,UDINT,5,The client is connecting to the server.
+DisconnectingFromServer,UDINT,6,The client is disconnecting from the server.
+NoCommand,UDINT,7,No command selected.
+SendingEMail,UDINT, 8,An email is being sent to the server.
+ConnectedToServer,UDINT,50,A connection to the server has been established.
+MessageFromServerReceived,UDINT,52,Data exchange with server, A message has been received.
+MessageToServerSent,UDINT,54,Data exchange with server: A message has been sent to the server.
+SendingMessageToServer,UDINT,55,Data exchange with server: A message is being sent to the server.
+Busy,UDINT,56,The function block is busy.
+WaitingForExpectedMessage,UDINT,58,Data exchange with server: Waiting for expected message to continue.
+OpeningAttachment,UDINT,60,The attachment is opened on the file system of the controller.
+SendingAttachment,UDINT,62,The process of sending the attachment is in progress.
+DownloadingEMail,UDINT,64,The email is downloaded from the server.
+SavingAttachment,UDINT,66,The process of saving the attachment in the file system of the controller is in progress.
+DeletingEMail,UDINT,68,The email is deleted from the server.
+ServerOk,UDINT,70,The server is in operational state.
+DeletingFile,UDINT,72,The invalid file is deleted from the system.
+InvalidAuthenticationMode,UDINT,101,It has been detected that the value of i_etAuthenticationMode is not valid. 
+InvalidServerIP,UDINT,102,It has been detected that i_sServerIP is empty. This is not valid.
+InvalidDomainName,UDINT,104,It has been detected that i_sDomainName is empty. This is not valid.
+InvalidSenderEMail,UDINT,106,It has been detected that i_sSenderEMail is empty. This is not valid.
+InvalidRecipientEMail,UDINT,108,It has been detected that i_sRecipientEMail is empty. This is not valid.
+InvalidProtocol,UDINT,110,It has been detected that the value of i_etProtocol is not valid.
+InvalidMessageAddress,UDINT,111,It has been detected that the value of i_pbyMessage is not valid.
+AuthenticationFailed,UDINT,112,Authentication has not been successful: Username (i_sUsername) or password (i_sPassword) are not correct.
+AuthenticationRequired,UDINT,113,Authentication is required: Enable an authentication mode.
+InvalidUsername,UDINT,114,It has been detected that i_sUsername is empty. This is not valid.
+InvalidPassword,UDINT,116, It has been detected that i_sPassword is empty. This is not valid.
+FunctionNotSupported,UDINT,118,The selected function, such as the selected authentication mode, is not supported. Set i_etProtocol to ET_Protocol.eSMTP or try to use another i_etAuthenticationMode.
+SyntaxError,UDINT,120,A syntax error, such as empty recipient address, has been detected.
+RecipientAddressTooLong UDINT 122 It has been detected that the recipient address exceeds the allowed length of 200 bytes.
+MailboxUnavailable,UDINT,124,The requested action has not been performed because the mailbox is not available.
+OpenAttachmentFailed,UDINT,126,Unable to open the attachment.
+ReadAttachmentFailed,UDINT,128,Unable to read the attachment.
+CloseAttachmentFailed,UDINT,130,Unable to close the attachment.
+MessageRejectedFromRecipient,UDINT,132,The email has been rejected by the recipient.
+EMailNotFound,UDINT,133,Corresponding email has not been found on the server. Verify the value of i_sUniqueId.
+InvalidPriority,UDINT,134,The value of i_etPriority is invalid.
+InvalidNumberEMailsToReceive,UDINT,135,It has been detected that the value of i_uiEMailsToReceive is not valid. It must be greater than 0 and less or equal to GPL.Gc_uiInboxSize.
+ServerError,UDINT,136,The server has detected an error.
+InvalidWhiteListSize,UDINT,137,It has been detected that the value of i_udiWhiteListSize is not valid. It must be greater than 0.
+InvalidFilePath,UDINT,138,It has been detected that the value of i_sFilePath is not valid.
+InvalidMaxNumberOfAttachments,UDINT,139,The value of GPL.Gc_udiMaxNumberOfAttachments is not valid. It must be greater than 0.
+InvalidMailboxBuffer,UDINT,140,The value of i_pbyMailboxBuffer is not valid.
+InvalidCommand,UDINT,141,The value of i_etCommand is not valid
+InvalidBufferSize,UDINT,142,The value of i_udiBufferSize is not valid. It must be greater than 0.
+NotSupported,UDINT,143,This function is not supported.
+InvalidInboxSize,UDINT,144,The value of Gc_udiInboxSize is not valid. It must be greater than 0.
+InvalidUniqueId,UDINT,145,The value of i_sUniqueID is not valid.
+SaveAttachmentFailed,UDINT,146,The attempt to save the attachment to the file system of the controller was not successful.
+InvalidWhiteList,UDINT,147,The value of i_pyWhiteListSender is not valid. As i_udiWhiteListSize is greater than 0,i_pyWhiteListSender must have a valid address (>0).
+MailboxBufferFull,UDINT,148,The buffer of the mailbox is full.The number of received bytes is greater than i_udiBufferSize.
+DecodingError,UDINT,149,An internal error has been detected while decoding an email.
+FailedToConnectToServer,UDINT,150,The connection to the server has not been established. Verify the Ethernet connection or the parameters i_sServerIP /i_sServerPort.
+InvalidMessageFromServer,UDINT,152,It has been detected that the message received from the server is invalid.
+UnexpectedMessageFromServer,UDINT,153,An unexpected message has been received from the server.
+FailedToReceiveMessageFromServer,UDINT,154,A timeout has expired: No answer has been received from the server within the given time.
+FailedToSendMessageToServer,UDINT,156,A communication error has been detected: Unable to send message to server.
+UnexpectedProgramBehavior,UDINT,200,An internal error has been detected.
+
+
+ST_Email
+Element,Data Type,Description
+q_etEMailStatus,ET_EMailStatus,Status of the email.
+q_pbyDate,POINTER TO BYTE,The start address of the string containing the date.
+q_udiLengthOfDate,UDINT,Length of the date string.
+q_pbySenderEMail,POINTER TO BYTE,The start address of the string containing the sender email address.
+q_udiLengthOfSenderEMail,UDINT,Length of the sender email address string.
+q_pbySubject,POINTER TO BYTE,The start address of the string containing the subject of the email.
+udiLengthOfSubject,UDINT,Length of the subject string.
+q_pbyMessage,POINTER TO BYTE,The start address of the string containing the email message.
+q_udiLengthOfMessage,UDINT,Length of the message string.
+q_asAttachmentPath,ARRAY[1..GPL.Gc_udiMaxNumberOfAttachments] OF STRING[255],Relative or absolute path(s) to the attachment file(s) on the file system.
+q_audiSizeOfAttachment,ARRAY[1..GPL.Gc_udiMaxNumberOfAttachments] OF UDINT,Size(s) of the attachment file(s) on the file system.
+q_sUnique,ID STRING[70],Unique ID of the email.
+
+
+ET_Protocol
+Name,Data Type,Value,Description
+SMTP,INT,0,SMTP (Simple Mail Transfer Protocol) is used for email transfer.
+eSMTP,INT,1,eSMTP (extended Simple Mail Transfer Protocol) is used for email transfer. Select this protocol to use additional protocol extensions, for example authentication,attachment, or email priority.
+
+
+ET_AuthenticationMode
+Name,Data Type,Value,Description
+NoAuthentication,INT,0,No user authentication required
+Login,INT,LOGIN mechanism used for authentication
+Plain,INT, PLAIN mechanism used for authentication.
+
+
+ST_TlsSettings
+Element,Data type,Description
+xUseTls,BOOL,FALSE,If TRUE, the connection is established using TLS.
+xSendClientCert,BOOL,FALSE,Set to TRUE if a client certificate is required.
+sCertName,STRING[255],-,Specifies the client certificate file. If the value is a null string, the default certificate of the controller is used. The name corresponds to the value “Issued for” from the controller certificate. The name can be obtained from the certificate using the Security Screen in Logic Builder.
+etProtocolTCPUDP.ET_TlsPrototocol,TCPUDP.ET_TlsProtocol.TLSv12,Protocol used for secured connection. 
+etCertVerifyMode,TCPUDP.ET_CertVerifyMode,TCPUDP.ET_CertVerifyMode.TrustedOnly,Mode for the certificate verification.
+
+
+ET_EMailStatus
+Name,Data Type,Value,Description
+Empty,INT,0,The structure is empty or the email data is not valid.
+Ok,INT,1,The email has been successfully received
+SenderBlocked,INT,2,The sender address is blocked by the white list, or is not found in the header of the email, or exceeds the maximum length of 200 bytes.
+NotSupported,INT,3,The format of the email is not supported.,Supported Content-Types (not valid for the file,attachment part): text/plain, multipart/mixed. Supported Content-Transfer Encoding schemes: 7-bit, quoted-printable, base 64.
+InvalidHeader,INT,4,The header of the email is invalid.
+InvalidAttachmentPath,INT,5,The path to the attachment of the email is invalid:  The path exceeds the maximum length of 255 bytes, or No file name is provided.
+InvalidAttachmentExtension,INT,6,The attachment of the email has an invalid extension. It is not possible to receive an attachment with one of the following extensions: .ap_, .app, .cf_,.cfg,.crc,.err,.frc,.log,.prj,.rcp,.rsi,.urf
+
+
+ET_TLSPROTOCOL
+[NOT FOUND]  
+
+ET_CERTVERIFYMODE
+[NOT FOUND]
+                
