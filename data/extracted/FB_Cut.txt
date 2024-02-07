@@ -1,14 +1,15 @@
 
-FB_Print
+FB_Cut
 
 Functional Description
-This function is used to print out some text. It provides a way to print the content of any text to any output. The output can be a console, a file or a memory location.
+This function is used to cut some material. It provides a way to cut a material with different direction and length.
 
 Interface
 Input,Data type,Description
-i_xEnable_Corrado,BOOL,Activation and initialization of the function block.
-i_sTextToPrint_Corrado,STRING[200],Subject of the email.
-
+i_xEnable_Cut_Corrado,BOOL,Activation and initialization of the function block.
+i_sDirection_Corrado,STRING[200],Direction of the cut, valid values are left, right, back, forth.
+i_uLenght,UDINT,Lenght of the cut.
+i_uWidth,UDINT,Width of the cut.
 
 Output,Data type,Description
 q_etResult, ET_Result, Provides diagnostic and status information
