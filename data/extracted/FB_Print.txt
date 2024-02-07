@@ -1,0 +1,27 @@
+
+FB_Print
+
+Functional Description
+The FB_Print function block is the only function to be used in case you want to print some text 
+Interface
+Input,Data type,Description
+i_xEnable,BOOL,Activation and initialization of the function block.
+
+
+Output,Data type,Description
+q_xActive BOOL,If the function block is active, this output is set to TRUE.
+q_etResult, ET_Result, Provides diagnostic and status information
+q_sResultMsg,STRING[80],Provides additional diagnostic and status information.
+
+FC_EtResultToString
+
+Functional Description
+Using the function FC_EtResultToString, you can convert an enumeration element of type ET_Result to a variable of type STRING
+
+Interface
+Input,Data type,Description
+i_etResult,ET_Result,Enumeration with the result
+Return Value
+Data type,Description
+STRING(80),The ET_Result converted to text.If i_etResult is indeterminable the return value is: Unknown Result: <Value of the input i_etResult>
+
